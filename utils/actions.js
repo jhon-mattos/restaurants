@@ -5,9 +5,6 @@ import "firebase/firestore";
 
 const db = getFirestore(firebaseApp);
 
-export const isUserLogged = () => {
-  let isLogged = false;
-  getAuth().onAuthStateChanged((user) => {
-    user !== null && (isLogged = true);
-  });
+export const getCurrentUser = () => {
+  return getAuth().currentUser;
 };
