@@ -30,7 +30,8 @@ export const closeSession = () => {
 export const registerUser = async (email, password) => {
   const result = { statusResponse: true, error: null };
   try {
-    await getAuth().createUserWithEmailAndPassword(email, password);
+    const auth = getAuth();
+    await createUserWithEmailAndPassword(auth, email, password);
   } catch (error) {
     result.error = "Este correo ya ha sido registrado.";
   }
