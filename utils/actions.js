@@ -12,19 +12,29 @@ const db = getFirestore(firebaseApp);
 
 export const isUserLogged = () => {
   let isLogged = false;
-  getAuth().onAuthStateChanged((user) => {
-    user !== null && (isLogged = true);
+  // getAuth().onAuthStateChanged((user) => {
+  //   user !== null && (isLogged = true);
+  // });
+  console.log("llegue");
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    if (user !== null) {
+      isLogged = true;
+      console.log("logeado");
+    }
   });
 
   return isLogged;
 };
 
 export const getCurrentUser = () => {
-  return getAuth().signOut();
+  const auth = getAuth();
+  return auth.currentUser;
 };
 
 export const closeSession = () => {
-  return getAuth().currentUser;
+  const auth = getAuth();
+  return signOut(auth);
 };
 
 export const registerUser = async (email, password) => {
