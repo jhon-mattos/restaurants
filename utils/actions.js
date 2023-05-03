@@ -12,15 +12,10 @@ const db = getFirestore(firebaseApp);
 
 export const isUserLogged = () => {
   let isLogged = false;
-  // getAuth().onAuthStateChanged((user) => {
-  //   user !== null && (isLogged = true);
-  // });
-  console.log("llegue");
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     if (user !== null) {
       isLogged = true;
-      console.log("logeado");
     }
   });
 

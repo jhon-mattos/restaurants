@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Button, Icon, Input } from "react-native-elements";
 import { validateEmail } from "../../utils/helpers";
 import { size } from "lodash";
@@ -23,7 +23,7 @@ export default function RegisterForm() {
     setFormData({ ...formData, [type]: e.nativeEvent.text });
   };
 
-  const doregisterUser = async () => {
+  const doRegisterUser = async () => {
     if (!validateData()) {
       return;
     }
@@ -122,7 +122,7 @@ export default function RegisterForm() {
         title="Registrar Nuevo Usuario"
         containerStyle={styles.btnContainer}
         buttonStyle={styles.btn}
-        onPress={() => doregisterUser()}
+        onPress={() => doRegisterUser()}
       />
       <Loading isVisible={loading} text="Creando cuenta..." />
     </View>
