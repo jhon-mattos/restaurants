@@ -1,6 +1,11 @@
 import { firebaseApp } from "./firebase";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 import "firebase/firestore";
 
 const db = getFirestore(firebaseApp);
@@ -15,5 +20,19 @@ export const isUserLogged = () => {
 };
 
 export const getCurrentUser = () => {
+  return getAuth().signOut();
+};
+
+export const closeSession = () => {
   return getAuth().currentUser;
+};
+
+export const registerUser = async (email, password) => {
+  const result = { statusResponse: true, error: null };
+  try {
+    await getAuth().createUserWithEmailAndPassword(email, password);
+  } catch (error) {
+    result.error = "Este correo ya ha sido registrado.";
+  }
+  return result;
 };
