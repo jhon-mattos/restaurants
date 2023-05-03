@@ -3,6 +3,9 @@ import { StyleSheet, View } from "react-native";
 import { Input, Icon, Button } from "react-native-elements";
 import Loading from "../../components/Loading";
 import { useNavigation } from "@react-navigation/native";
+import { validateEmail } from "../../utils/helpers";
+import { loginWithEmailAndPassword } from "../../utils/actions";
+import { isEmpty } from "lodash";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,8 +22,43 @@ export default function LoginForm() {
     setFormData({ ...formData, [type]: e.nativeEvent.text });
   };
 
-  const doLogin = () => {
-    console.log("login");
+  const doLogin = async () => {
+    if (!validateData()) {
+      return;
+    }
+
+    setLoading(true);
+    const result = await loginWithEmailAndPassword(
+      formData.email,
+      formData.password
+    );
+    setLoading(false);
+
+    if (!result.statusResponse) {
+      setErrorEmail(result.error);
+      setErrorPassword(result.error);
+      return;
+    }
+
+    navigation.navigate("account");
+  };
+
+  const validateData = () => {
+    setErrorEmail("");
+    setErrorPassword("");
+    let isValid = true;
+
+    if (!validateEmail(formData.email)) {
+      setErrorEmail("Debes de ingresar un email válido");
+      isValid = false;
+    }
+
+    if (isEmpty(formData.password)) {
+      setErrorPassword("Debes de ingresar tu contraseña");
+      isValid = false;
+    }
+
+    return isValid;
   };
 
   return (
